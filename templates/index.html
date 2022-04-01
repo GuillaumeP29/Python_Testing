@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+
+{% block title %}
     <title>GUDLFT Registration</title>
-</head>
-<body>
+{% endblock title %}
+
+{% block content %}
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
     <p>Please enter your secretary email to continue:</p>
     <form action="showSummary" method="post">
@@ -13,5 +12,4 @@
         <input type="email" name="email" id="email"/>
         <button type="submit">Enter</button>
     </form>
-</body>
-</html>
+{% endblock content %}

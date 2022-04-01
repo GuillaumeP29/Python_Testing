@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
+
+{% block title %}
     <title>Booking for {{ competition['name'] }} || GUDLFT</title>
-</head>
-<body>
+{% endblock title %}
+
+{% block content %}
     <h2>{{ competition['name'] }}</h2>
     <p>Places available: {{ competition['numberOfPlaces'] }}</p>
     <form action="/purchasePlaces" method="post">
@@ -15,5 +14,4 @@
         <input type="number" name="places" id="places"/>
         <button type="submit">Book</button>
     </form>
-</body>
-</html>
+{% endblock content %}

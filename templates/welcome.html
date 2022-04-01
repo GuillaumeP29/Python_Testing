@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summary | GUDLFT Registration</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Summary | GUDLFT Registration</title>
+{% endblock title %}
+
+{% block content %}
     <h2>Welcome, {{ club['email'] }}</h2>
     <a href="/logout">Logout</a>
     {% with messages = get_flashed_messages() %}
@@ -31,5 +30,4 @@
         </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock content %}
