@@ -45,9 +45,6 @@ def book(competition, club):
 
 @app.route('/purchasePlaces/', methods=['POST'])
 def purchasePlaces():
-    print("Coucou !!!!")
-    print(request.form['competition'])
-    print(request.form['club'])
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     print(competition)
