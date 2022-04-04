@@ -21,6 +21,38 @@ competitions = loadCompetitions()
 clubs = loadClubs()
 
 
+def addAttendingClubsToCompetitions():
+    for competition in competitions:
+        competition["attendingClubs"] = {}
+
+
+def clubAttends(club_name: str, competition):
+    if club_name in competition["attendingClubs"].keys():
+        return True
+    else:
+        return False
+
+
+def clubCanPurchasePlaces(places_required: int, club_name: str, competition):
+    if places_required > 12:
+        return False
+    if clubAttends(club_name, competition):
+        purchased_places = competition['attendingClubs'][club_name]
+        if purchased_places + places_required > 12:
+            return False
+        else:
+            return True
+    else:
+        return True
+
+
+def addPurchasedPlaces(places_required: int, club_name: str, competition):
+    if clubAttends:
+        competition["attendingClubs"][club_name] += places_required
+    else:
+        competition["attendingClubs"][club_name] = places_required
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -47,10 +79,15 @@ def book(competition, club):
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
+    club_name = club['name']
     placesRequired = int(request.form['places'])
-    competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - placesRequired
-    club['points'] = int(club['points']) - placesRequired
-    flash('Great-booking complete!')
+    if clubCanPurchasePlaces(placesRequired, club_name, competition):
+        competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - placesRequired
+        club['points'] = int(club['points']) - placesRequired
+        addPurchasedPlaces(placesRequired, club_name, competition)
+        flash(f'Great-booking complete! - {placesRequired} places purchased')
+    else:
+        flash(f'{club_name} would have more than 12 places-booking refused!')
     return render_template('welcome.html', club=club, competitions=competitions)
 
 
