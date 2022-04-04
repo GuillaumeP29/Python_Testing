@@ -14,16 +14,17 @@ def loadCompetitions():
         return listOfCompetitions
 
 
+def addAttendingClubsToCompetitions():
+    for competition in competitions:
+        competition["attendingClubs"] = {}
+
+
 app = Flask(__name__)
 app.secret_key = 'something_special'
 
 competitions = loadCompetitions()
 clubs = loadClubs()
-
-
-def addAttendingClubsToCompetitions():
-    for competition in competitions:
-        competition["attendingClubs"] = {}
+addAttendingClubsToCompetitions()
 
 
 def clubAttends(club_name: str, competition):
@@ -82,8 +83,8 @@ def purchasePlaces():
     club_name = club['name']
     placesRequired = int(request.form['places'])
     if clubCanPurchasePlaces(placesRequired, club_name, competition):
-        competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - placesRequired
-        club['points'] = int(club['points']) - placesRequired
+        competition['numberOfPlaces'] = competition['numberOfPlaces'] - placesRequired
+        club['points'] = club['points'] - placesRequired
         addPurchasedPlaces(placesRequired, club_name, competition)
         flash(f'Great-booking complete! - {placesRequired} places purchased')
     else:
