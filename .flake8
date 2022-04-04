@@ -1,0 +1,12 @@
+[flake8]
+format = html
+htmldir = C:/Users/guill/Desktop/OC_P11/Programme/flake-report
+exclude =
+    .git,
+    __pycache__,
+    env,
+    .json,
+    README.md,
+    requirements.txt,
+    .gitignore
+max-line-length = 119
