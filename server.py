@@ -48,7 +48,7 @@ def clubCanPurchasePlaces(places_required: int, club_name: str, competition):
 
 
 def addPurchasedPlaces(places_required: int, club_name: str, competition):
-    if clubAttends:
+    if clubAttends(club_name, competition):
         competition["attendingClubs"][club_name] += places_required
     else:
         competition["attendingClubs"][club_name] = places_required
@@ -86,9 +86,9 @@ def purchasePlaces():
         competition['numberOfPlaces'] = competition['numberOfPlaces'] - placesRequired
         club['points'] = club['points'] - placesRequired
         addPurchasedPlaces(placesRequired, club_name, competition)
-        flash(f'Great-booking complete! - {placesRequired} places purchased')
+        flash(f'Great - booking complete! - {placesRequired} places purchased')
     else:
-        flash(f'{club_name} would have more than 12 places-booking refused!')
+        flash(f'{club_name} would have more than 12 places - booking refused!')
     return render_template('welcome.html', club=club, competitions=competitions)
 
 
