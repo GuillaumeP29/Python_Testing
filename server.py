@@ -47,8 +47,6 @@ def book(competition, club):
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
-    print(competition)
-    print(club)
     placesRequired = int(request.form['places'])
     competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
     flash('Great-booking complete!')
@@ -60,5 +58,4 @@ def purchasePlaces():
 
 @app.route('/logout/')
 def logout():
-    print("Que se passe-t-il ?")
     return redirect(url_for('index'))
