@@ -73,3 +73,9 @@ def test_post_purchase_places_with_improper_data_should_status_code_bad_request(
 def test_logout_should_status_code_redirection(client):
     response = client.get('/logout/')
     assert response.status_code == 302
+
+
+# Phase 2
+def test_get_public_board_should_status_code_ok(client):
+    response = client.get('/publicBoard/')
+    assert response.status_code == 200
