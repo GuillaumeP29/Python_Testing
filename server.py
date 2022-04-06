@@ -55,6 +55,7 @@ def addPurchasedPlaces(places_required: int, club_name: str, competition):
 
 
 @app.route('/')
+@app.route('/index/')
 def index():
     return render_template('index.html')
 
