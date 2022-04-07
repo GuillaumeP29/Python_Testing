@@ -82,10 +82,11 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     club_name = club['name']
+    points_per_place = 3
     placesRequired = int(request.form['places'])
     if clubCanPurchasePlaces(placesRequired, club_name, competition):
         competition['numberOfPlaces'] = competition['numberOfPlaces'] - placesRequired
-        club['points'] = club['points'] - placesRequired
+        club['points'] = club['points'] - (placesRequired * points_per_place)
         addPurchasedPlaces(placesRequired, club_name, competition)
         flash(f'Great - booking complete! - {placesRequired} places purchased')
     else:
