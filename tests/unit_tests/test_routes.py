@@ -19,9 +19,9 @@ def test_post_showSummary_with_correct_email_should_status_code_ok(client):
     assert response.status_code == 200
 
 
-def test_post_showSummary_with_wrong_email_should_status_code_server_error(client):
+def test_post_showSummary_with_wrong_email_should_redirect_to_index(client):
     response = client.post('/showSummary/', data={'email': 'fake@email.com'})
-    assert response.status_code == 500
+    assert response.status_code == 302
 
 
 def test_post_showSummary_with_empty_email_should_status_code_server_error(client):

@@ -66,15 +66,19 @@ def addPurchasedPlaces(places_required: int, club_name: str, competition):
 
 
 @app.route('/')
-@app.route('/index/')
 def index():
     return render_template('index.html')
 
 
 @app.route('/showSummary/', methods=['POST'])
 def showSummary():
-    club = [club for club in clubs if club['email'] == request.form['email']][0]
-    return render_template('welcome.html', club=club, competitions=competitions)
+    club = [club for club in clubs if club['email'] == request.form['email']]
+    if not club:
+        flash("The email you entered hasen't been found in the clubs email")
+        return redirect(url_for('index'))
+    else:
+        club = club[0]
+        return render_template('welcome.html', club=club, competitions=competitions)
 
 
 @app.route('/book/<competition>/<club>/')
