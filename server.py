@@ -1,5 +1,6 @@
 import json
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, session
+from datetime import datetime
 
 
 POINTS_PER_PLACE = 3
@@ -65,16 +66,25 @@ def add_purchased_places(places_required: int, club_name: str, competition):
         competition["attending_clubs"][club_name] = places_required
 
 
+def competition_finished(competition):
+    competition_date = datetime.strptime(competition['date'], "%Y-%m-%d %H:%M:%S")
+    return competition_date < datetime.today()
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/showSummary/', methods=['POST'])
+@app.route('/showSummary/', methods=['GET', 'POST'])
 def show_summary():
-    club = [club for club in clubs if club['email'] == request.form['email']]
+    if request.method == 'GET':
+        club_email = session.get('email')
+    else:
+        club_email = request.form['email']
+    club = [club for club in clubs if club['email'] == club_email]
     if not club:
-        flash("The email you entered hasen't been found in the clubs email")
+        flash("The email you entered hasn't been found in the clubs email")
         return redirect(url_for('index'))
     else:
         club = club[0]
@@ -84,7 +94,15 @@ def show_summary():
 @app.route('/book/<competition>/<club>/')
 def book(competition, club):
     found_club = [c for c in clubs if c['name'] == club][0]
+    print("found_club")
+    print(found_club)
     found_competition = [c for c in competitions if c['name'] == competition][0]
+    print("found_competition")
+    print(found_competition)
+    if competition_finished(found_competition):
+        flash('You cannot purchase places for a competition which is already finished')
+        session['email'] = found_club['email']
+        return redirect(url_for('show_summary'))
     if found_club and found_competition:
         return render_template('booking.html', club=found_club, competition=found_competition)
     else:
