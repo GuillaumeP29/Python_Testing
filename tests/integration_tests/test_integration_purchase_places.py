@@ -32,7 +32,8 @@ def test_purchase_places_should_decrease_nb_of_places(client):
 def test_purchase_places_should_decrease_nb_of_points(client):
     reset_test_club_points()
     nb_of_places_to_buy = 3
-    new_nb_of_places_expected = INITIAL_NB_OF_POINTS - nb_of_places_to_buy
+    points_per_place = 3
+    new_nb_of_places_expected = INITIAL_NB_OF_POINTS - (nb_of_places_to_buy * points_per_place)
     client.post('/purchasePlaces/', data={
         'competition': TEST_COMPETITION_NAME, 'club': TEST_CLUB_NAME, 'places': nb_of_places_to_buy
         })
