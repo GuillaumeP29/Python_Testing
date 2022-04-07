@@ -2,6 +2,9 @@ import json
 from flask import Flask, render_template, request, redirect, flash, url_for
 
 
+POINTS_PER_PLACE = 3
+
+
 def loadClubs():
     with open('clubs.json') as c:
         listOfClubs = json.load(c)['clubs']
@@ -28,18 +31,26 @@ addAttendingClubsToCompetitions()
 
 
 def clubAttends(club_name: str, competition):
-    if club_name in competition["attendingClubs"].keys():
-        return True
-    else:
-        return False
+    return club_name in competition["attendingClubs"].keys()
+
+
+def clubCanAfford(places_required: int, club_name: str):
+    club = [c for c in clubs if c['name'] == club_name][0]
+    return club['points'] >= places_required * POINTS_PER_PLACE
 
 
 def clubCanPurchasePlaces(places_required: int, club_name: str, competition):
     if places_required > 12:
+        flash('Impossible to book more than 12 places - booking refused!')
+        return False
+    if not clubCanAfford(places_required, club_name):
+        flash(f"""your current number of points doesn't allow you to register {places_required} competitors to
+            the competition""")
         return False
     if clubAttends(club_name, competition):
         purchased_places = competition['attendingClubs'][club_name]
         if purchased_places + places_required > 12:
+            flash(f'{club_name} would have more than 12 places - booking refused!')
             return False
         else:
             return True
@@ -73,7 +84,7 @@ def book(competition, club):
     if foundClub and foundCompetition:
         return render_template('booking.html', club=foundClub, competition=foundCompetition)
     else:
-        flash("Something went wrong-please try again")
+        flash("Something went wrong - please try again")
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
@@ -82,15 +93,12 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     club_name = club['name']
-    points_per_place = 3
     placesRequired = int(request.form['places'])
     if clubCanPurchasePlaces(placesRequired, club_name, competition):
         competition['numberOfPlaces'] = competition['numberOfPlaces'] - placesRequired
-        club['points'] = club['points'] - (placesRequired * points_per_place)
+        club['points'] = club['points'] - (placesRequired * POINTS_PER_PLACE)
         addPurchasedPlaces(placesRequired, club_name, competition)
         flash(f'Great - booking complete! - {placesRequired} places purchased')
-    else:
-        flash(f'{club_name} would have more than 12 places - booking refused!')
     return render_template('welcome.html', club=club, competitions=competitions)
 
 
