@@ -95,14 +95,21 @@ def book(competition, club):
 @app.route('/purchasePlaces/', methods=['POST'])
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
+    competition_name = competition['name']
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     club_name = club['name']
-    placesRequired = int(request.form['places'])
-    if clubCanPurchasePlaces(placesRequired, club_name, competition):
-        competition['numberOfPlaces'] = competition['numberOfPlaces'] - placesRequired
-        club['points'] = club['points'] - (placesRequired * POINTS_PER_PLACE)
-        addPurchasedPlaces(placesRequired, club_name, competition)
-        flash(f'Great - booking complete! - {placesRequired} places purchased')
+    places = request.form['places']
+    places_required = 0
+    if len(places) != 0:
+        places_required = int(request.form['places'])
+    if places_required <= 0:
+        flash("The number of places has to be a positive number and at least 1")
+        return redirect(f"/book/{competition_name}/{club_name}/")
+    if clubCanPurchasePlaces(places_required, club_name, competition):
+        competition['numberOfPlaces'] = competition['numberOfPlaces'] - places_required
+        club['points'] = club['points'] - (places_required * POINTS_PER_PLACE)
+        addPurchasedPlaces(places_required, club_name, competition)
+        flash(f'Great - booking complete! - {places_required} places purchased')
     return render_template('welcome.html', club=club, competitions=competitions)
 
 
