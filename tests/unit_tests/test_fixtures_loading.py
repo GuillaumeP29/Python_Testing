@@ -1,31 +1,31 @@
-from server import loadClubs, loadCompetitions
+from server import load_clubs, load_competitions
 
 
 def test_load_clubs_should_return_list():
-    clubs = loadClubs()
+    clubs = load_clubs()
     assert isinstance(clubs, list)
 
 
 def test_load_clubs_should_return_dicts():
-    clubs = loadClubs()
+    clubs = load_clubs()
     assert isinstance(clubs[0], dict)
 
 
 def test_load_clubs_should_return_at_least_one_club():
-    clubs = loadClubs()
+    clubs = load_clubs()
     assert clubs[0]['name'] is not None
 
 
 def test_load_competitions_should_return_list():
-    competitions = loadCompetitions()
+    competitions = load_competitions()
     assert isinstance(competitions, list)
 
 
 def test_load_competitions_should_return_dicts():
-    competitions = loadCompetitions()
+    competitions = load_competitions()
     assert isinstance(competitions[0], dict)
 
 
 def test_load_competitions_should_return_at_least_one_competition():
-    competitions = loadCompetitions()
+    competitions = load_competitions()
     assert competitions[0]['name'] is not None

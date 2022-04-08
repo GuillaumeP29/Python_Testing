@@ -76,7 +76,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/showSummary/', methods=['GET', 'POST'])
+@app.route('/show-summary/', methods=['GET', 'POST'])
 def show_summary():
     if request.method == 'GET':
         club_email = session.get('email')
@@ -94,11 +94,7 @@ def show_summary():
 @app.route('/book/<competition>/<club>/')
 def book(competition, club):
     found_club = [c for c in clubs if c['name'] == club][0]
-    print("found_club")
-    print(found_club)
     found_competition = [c for c in competitions if c['name'] == competition][0]
-    print("found_competition")
-    print(found_competition)
     if competition_finished(found_competition):
         flash('You cannot purchase places for a competition which is already finished')
         session['email'] = found_club['email']
@@ -110,7 +106,7 @@ def book(competition, club):
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
-@app.route('/purchasePlaces/', methods=['POST'])
+@app.route('/purchase-places/', methods=['POST'])
 def purchase_places():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     competition_name = competition['name']

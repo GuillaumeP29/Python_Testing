@@ -14,28 +14,28 @@ def test_get_index_should_status_code_ok(client):
     assert response.status_code == 200
 
 
-def test_post_showSummary_with_correct_email_should_status_code_ok(client):
-    response = client.post('/showSummary/', data={'email': 'john@simplylift.co'})
+def test_post_show_summary_with_correct_email_should_status_code_ok(client):
+    response = client.post('/show-summary/', data={'email': 'john@simplylift.co'})
     assert response.status_code == 200
 
 
-def test_post_showSummary_with_wrong_email_should_redirect_to_index(client):
-    response = client.post('/showSummary/', data={'email': 'fake@email.com'})
+def test_post_show_summary_with_wrong_email_should_redirect_to_index(client):
+    response = client.post('/show-summary/', data={'email': 'fake@email.com'})
     assert response.status_code == 302
 
 
-def test_post_showSummary_with_empty_email_should_status_code_server_error(client):
-    response = client.post('/showSummary/', data={'email': ''})
-    assert response.status_code == 500
+def test_post_show_summary_with_empty_email_should_redirect_to_index(client):
+    response = client.post('/show-summary/', data={'email': ''})
+    assert response.status_code == 302
 
 
-def test_get_showSummary_should_status_code_bad_request(client):
-    response = client.get('/showSummary/')
-    assert response.status_code == 405
+def test_get_show_summary_should_should_redirect_to_index(client):
+    response = client.get('/show-summary/')
+    assert response.status_code == 302
 
 
 def test_get_book_with_correct_data_should_status_code_ok(client):
-    response = client.get(r'/book/Spring%20Festival/Simply%20Lift/')
+    response = client.get(r'/book/Fall%20Classic/Simply%20Lift/')
     assert response.status_code == 200
 
 
@@ -45,28 +45,28 @@ def test_get_book_with_wrong_data_should_status_code_server_error(client):
 
 
 def test_post_purchase_places_with_correct_data_should_status_code_ok(client):
-    response = client.post('/purchasePlaces/', data={
-        'competition': 'Spring Festival', 'club': 'Simply Lift', 'places': '3'
+    response = client.post('/purchase-places/', data={
+        'competition': 'Fall Classic', 'club': 'Simply Lift', 'places': '3'
         })
     assert response.status_code == 200
 
 
-def test_post_purchase_places_with_empty_places_should_status_code_server_error(client):
-    response = client.post('/purchasePlaces/', data={
+def test_post_purchase_places_with_empty_places_should_status_code_direction(client):
+    response = client.post('/purchase-places/', data={
         'competition': 'Spring Festival', 'club': 'Simply Lift', 'places': ''
         })
-    assert response.status_code == 500
+    assert response.status_code == 302
 
 
 def test_post_purchase_places_with_wrong_data_should_status_code_server_error(client):
-    response = client.post('/purchasePlaces/', data={
+    response = client.post('/purchase-places/', data={
         'competition': 'Fake Competition', 'club': 'Fake Club', 'places': '3'
         })
     assert response.status_code == 500
 
 
 def test_post_purchase_places_with_improper_data_should_status_code_bad_request(client):
-    response = client.post('/purchasePlaces/', data={'fake data': 'fake name'})
+    response = client.post('/purchase-places/', data={'fake data': 'fake name'})
     assert response.status_code == 400
 
 

@@ -15,7 +15,7 @@
             <p>{{ comp['name'] }}</p></br>
             <p>Date: {{ comp['date'] }}</p></br>
             <p>Number of Places: {{ comp['number_of_places'] }}</p>
-            {% if comp['number_of_places']|int >0 %}
+            {% if comp['number_of_places'] > 0 %}
                 <a href="{{ url_for('book', competition=comp['name'], club=club['name']) }}">Book Places</a>
             {% endif %}
         </li>
