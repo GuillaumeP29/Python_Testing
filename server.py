@@ -128,7 +128,7 @@ def purchase_places():
 
 
 # TODO: Add route for points display
-@app.route('/publicBoard/')
+@app.route('/public-board/')
 def public_board():
     return render_template('public_board.html', clubs=clubs)
 

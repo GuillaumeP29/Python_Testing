@@ -77,5 +77,5 @@ def test_logout_should_status_code_redirection(client):
 
 # Phase 2
 def test_get_public_board_should_status_code_ok(client):
-    response = client.get('/publicBoard/')
+    response = client.get('/public-board/')
     assert response.status_code == 200

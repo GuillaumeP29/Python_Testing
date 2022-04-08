@@ -1,4 +1,5 @@
 import pytest
+from flask import get_flashed_messages
 
 from server import app
 from tests.data_for_testing import (
@@ -15,6 +16,19 @@ add_club_for_tests()
 def client():
     with app.test_client() as client:
         yield client
+
+
+def test_public_board_access_and_go_back_to_index_is_possible_for_everyone(client):
+    response = client.get('/')
+    if response.status_code == 200:
+        response = client.get('/public-board/')
+        if 'test_club' in str(response.data):
+            response = client.get('/')
+            assert response.status_code == 200
+        else:
+            assert False
+    else:
+        assert False
 
 
 def test_purchase_places_should_decrease_nb_of_places(client):
@@ -40,3 +54,10 @@ def test_purchase_places_should_decrease_nb_of_points(client):
     response = client.post('/show-summary/', data={'email': 'admin@test_club.com'})
     p_to_find = f'<p>Points available: {new_nb_of_places_expected}</p>'
     assert p_to_find in str(response.data)
+
+
+def test_book_on_finished_event_should_flash_specific_message(client):
+    client.get(r'/book/Spring%20Festival/Simply%20Lift/')
+    expected_message = 'You cannot purchase places for a competition which is already finished'
+    message = get_flashed_messages()
+    assert message[0] == expected_message
