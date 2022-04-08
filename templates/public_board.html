@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Public board - Clubs point || GUDLFT</title>
+{% endblock title %}
+
+{% block content %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Club</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in clubs %}
+                <tr>
+                    <td>{{ club['name'] }}</td>
+                    <td>{{ club['points'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- <ul>
+        {% for club in clubs %}
+            <li>
+                <p>Club: {{ club['name'] }}</p>
+                <p>Points: {{ club['points'] }}</p>
+            </li>
+        {% endfor %}
+    </ul> -->
+    <a href="{{ url_for('index') }}">Back to login menu</a>
+{% endblock content %}

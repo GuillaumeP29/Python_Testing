@@ -9,9 +9,9 @@ TEST_COMPETITION_NAME = 'test_competition'
 def add_competition_for_tests():
     test_competition = {
         'name': TEST_COMPETITION_NAME,
-        'date': '2020-03-27 10:00:00',
-        'numberOfPlaces': INITIAL_NB_OF_PLACES,
-        'attendingClubs': {}
+        'date': '2023-03-27 10:00:00',
+        'number_of_places': INITIAL_NB_OF_PLACES,
+        'attending_clubs': {}
     }
     competitions.append(test_competition)
 
@@ -32,14 +32,14 @@ def reset_test_club_points():
 
 def reset_test_competition_nb_of_places():
     competition = [c for c in competitions if c['name'] == 'test_competition'][0]
-    competition['numberOfPlaces'] = INITIAL_NB_OF_PLACES
+    competition['number_of_places'] = INITIAL_NB_OF_PLACES
 
 
 def reset_test_club_attendees_to_test_competition():
     competition = [c for c in competitions if c['name'] == 'test_competition'][0]
-    competition['attendingClubs']['test_club'] = 0
+    competition['attending_clubs']['test_club'] = 0
 
 
 def set_10_test_club_attendees_to_test_competition():
     competition = [c for c in competitions if c['name'] == 'test_competition'][0]
-    competition['attendingClubs']['test_club'] = 10
+    competition['attending_clubs']['test_club'] = 10
