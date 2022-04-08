@@ -1,4 +1,4 @@
-from flaskr.server import competitions, clubs
+from server import competitions, clubs
 
 INITIAL_NB_OF_PLACES = 25
 INITIAL_NB_OF_POINTS = 30

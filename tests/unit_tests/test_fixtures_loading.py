@@ -1,4 +1,4 @@
-from flaskr.server import load_clubs, load_competitions
+from server import load_clubs, load_competitions
 
 
 def test_load_clubs_should_return_list():
