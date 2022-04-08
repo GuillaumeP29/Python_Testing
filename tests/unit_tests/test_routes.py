@@ -1,6 +1,6 @@
 import pytest
 
-from server import app
+from flaskr.server import app
 
 
 @pytest.fixture
